@@ -6,7 +6,7 @@ from dash import Dash, html, dcc
 from dash.dependencies import Input, Output
 import plotly.express as px
 
-from connect import get_temp_by_hour, get_live_temp, revive_connection
+from iotcloudtemp.connect import get_temp_by_hour
 
 app = Dash('Test')
 
