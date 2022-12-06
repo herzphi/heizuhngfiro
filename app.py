@@ -6,7 +6,7 @@ import plotly.express as px
 from iotcloudtemp.connect import get_temp_by_hour
 
 mathjax = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML'
-app = Dash('PhilippsHeidelBude')
+app = Dash(__name__)
 
 
 app.layout = html.Div(children=[
