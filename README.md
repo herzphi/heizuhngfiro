@@ -1,2 +1,2 @@
 # IoTCloudTemp
-Evaluates the temperature queried from the IoT Cloud.
+Evaluates the temperature queried from the Arduino IoT Cloud.
