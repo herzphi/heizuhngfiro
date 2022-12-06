@@ -98,11 +98,7 @@ def update_output(value):
     Input('interval-component', 'n_intervals')
 )
 def update_graph_live(n):
-    #df_data = get_temp_by_hour()
-    df_data = pd.DataFrame({
-        'time':1,
-        'value':2
-    })
+    df_data = get_temp_by_hour()
     latest_data, time, date = df_data.tail(1).value.values[0], \
         df_data.tail(1).time.values[0], df_data.tail(1).date.values[0]
     fig = px.line(df_data,
