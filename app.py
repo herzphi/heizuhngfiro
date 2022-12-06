@@ -12,51 +12,54 @@ server = app.server
 
 app.layout = html.Div(children=[
     html.H1(children='Philipps HeidelBude'),
-    html.Div(id='toggle-info'),
+    #html.Div(id='toggle-info'),
     daq.ToggleSwitch(
         value=True,
-        id='toggle-live-offline'
+        id='toggle-live-offline',
+        label='Live Updates'
     ),
+    html.Table(className='table_info',
+    children=[
+        html.Tr(
+        [
+            html.Td(
+                dcc.Markdown('''$T_{current} =$''', mathjax=True)
+            ),
+            html.Td(
+                html.Div(id='current_temperature')
+            ),
+        ]),
+        html.Tr([
+            html.Td(
+                dcc.Markdown('''$T_{mean} =$''', mathjax=True)
+            ),
+            html.Td(
+                html.Div(id='mean_temperature')
+            )
+        ]),
+        html.Tr([
+            html.Td(
+                dcc.Markdown('''$T_{max} =$''', mathjax=True)
+            ),
+            html.Td(
+                html.Div(id='max_temperature')
+            ),
+        ]),
+        html.Tr([
+            html.Td(
+                dcc.Markdown('''$T_{min} =$''', mathjax=True)
+            ),
+            html.Td(
+                html.Div(id='min_temperature')
+            ),
+        ])
+    ]),
     html.Table([
         html.Tr([
-            html.Td([
-                html.Tr(
-                [
-                    html.Td(
-                        dcc.Markdown('''$T_{current} =$''', mathjax=True)
-                    ),
-                    html.Td(
-                        html.Div(id='current_temperature')
-                    )
-                ]),
-                html.Tr([
-                    html.Td(
-                        dcc.Markdown('''$T_{mean} =$''', mathjax=True)
-                    ),
-                    html.Td(
-                        html.Div(id='mean_temperature')
-                    ),
-                ]),
-                html.Tr([
-                    html.Td(
-                        dcc.Markdown('''$T_{max} =$''', mathjax=True)
-                    ),
-                    html.Td(
-                        html.Div(id='max_temperature')
-                    ),
-                ]),
-                html.Tr([
-                    html.Td(
-                        dcc.Markdown('''$T_{min} =$''', mathjax=True)
-                    ),
-                    html.Td(
-                        html.Div(id='min_temperature')
-                    ),
-                ])
-        ]),
             html.Td(
                 dcc.Graph(id='live-update-graph'),
-                style={'width':'80%'})
+                style={'width':'80%'}
+            )
         ]),
     ]),
     dcc.Interval(
@@ -68,7 +71,7 @@ app.layout = html.Div(children=[
 ]) 
 
 
-@app.callback(
+"""@app.callback(
     [
         Output('toggle-info', 'children'),
         Output('interval-component', 'disabled'),
@@ -82,7 +85,7 @@ def update_output(value):
     else:
         value=True
         valueout = 'False'
-    return f'Live Updates: {valueout}.', value
+    return f'Live Updates: {valueout}.', value"""
 
 
 @app.callback([
@@ -90,7 +93,7 @@ def update_output(value):
     Output('current_temperature', 'children'),
     Output('mean_temperature', 'children'),
     Output('max_temperature', 'children'),
-    Output('min_temperature', 'children')
+    Output('min_temperature', 'children'),
     ],
     Input('interval-component', 'n_intervals')
 )
@@ -98,7 +101,7 @@ def update_graph_live(n):
     df_data = get_temp_by_hour()
     latest_data, time, date = df_data.tail(1).value.values[0], \
         df_data.tail(1).time.values[0], df_data.tail(1).date.values[0]
-    fig = px.line(df_data, 
+    fig = px.line(df_data,
                     x="hour", 
                     y="value", 
                     color='date', 
@@ -109,8 +112,9 @@ def update_graph_live(n):
                         "date": "Date (YYYY-MM-DD)"
                     },
     )
+    fig.update_layout(showlegend=False)
     values_series = df_data['value']
-    mean_T = values_series.mean()
+    mean_T, std_T = values_series.mean(), values_series.std()
     max_T = values_series.max()
     min_T = values_series.min()
     min_t_time = df_data[df_data['value']==min_T]['hour'].values[0]
@@ -120,7 +124,7 @@ def update_graph_live(n):
         min_t_time = 'pm'
 
     return fig, f'{latest_data:.2f} °C at {time}', \
-        f'{mean_T:.1f} °C', f'{max_T:.1f} °C', \
+        f'({mean_T:.1f} ± {std_T:.1f}) °C', f'{max_T:.1f} °C', \
             f'{min_T:.1f} °C at {min_t_time:.0f} {ampm}'
 
 
