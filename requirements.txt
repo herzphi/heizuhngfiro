@@ -22,7 +22,7 @@ executing==1.2.0
 fastjsonschema==2.16.2
 Flask==2.2.2
 fonttools==4.38.0
-gunicorn==20.1.0
+gunicorn
 h11==0.14.0
 httpcore==0.16.1
 httpx==0.23.1
