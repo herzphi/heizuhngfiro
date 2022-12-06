@@ -2,7 +2,7 @@ from dash import Dash, html, dcc
 from dash.dependencies import Input, Output
 import dash_daq as daq
 import plotly.express as px
-#Testing vv
+
 from iotcloudtemp.connect import get_temp_by_hour
 
 mathjax = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML'
