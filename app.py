@@ -14,7 +14,7 @@ app.layout = html.Div(children=[
     html.H1(children='Philipps HeidelBude'),
     #html.Div(id='toggle-info'),
     daq.ToggleSwitch(
-        value=True,
+        value=False,
         id='toggle-live-offline',
         label='Live Updates'
     ),
@@ -66,7 +66,7 @@ app.layout = html.Div(children=[
             id='interval-component',
             interval=10*1000, # in milliseconds
             n_intervals=0,
-            disabled='True'
+            disabled=True
         )
 ]) 
 
@@ -77,10 +77,10 @@ app.layout = html.Div(children=[
 )
 def update_output(value):
     if value:
-        value = 'True'
+        value = False
     else:
-        value = 'False'
-    return str(value)
+        value = True
+    return value
 
 
 @app.callback([
