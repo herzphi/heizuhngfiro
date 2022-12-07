@@ -10,7 +10,6 @@ import os
 YOUR_CLIENT_ID = os.getenv('YOUR_CLIENT_ID')
 YOUR_CLIENT_SECRET = os.environ.get('YOUR_CLIENT_SECRET')
 
-
 def get_token():
     oauth_client = BackendApplicationClient(client_id=YOUR_CLIENT_ID)
     token_url = "https://api2.arduino.cc/iot/v1/clients/token"

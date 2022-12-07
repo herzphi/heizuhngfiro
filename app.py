@@ -11,11 +11,7 @@ app = Dash(__name__)
 server = app.server
 
 app.layout = html.Div(children=[
-    html.Div(className='top_line', children=[
-        html.H1(children='Philipps HeidelBude'),
-        dcc.Markdown('''$T_{current} =$''', mathjax=True),
-        html.Div(id='current_temperature'),
-    ]),
+    html.H1(children='Philipps HeidelBude'),
     #html.Div(id='toggle-info'),
     daq.ToggleSwitch(
         value=True,
