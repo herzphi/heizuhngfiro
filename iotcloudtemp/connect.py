@@ -1,9 +1,14 @@
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
-from iotcloudtemp.credentials import YOUR_CLIENT_ID, YOUR_CLIENT_SECRET
+#from iotcloudtemp.credentials import YOUR_CLIENT_ID, YOUR_CLIENT_SECRET
 import iot_api_client as iot
 import pandas as pd
 from datetime import timedelta
+import os
+
+# Get environment variables
+YOUR_CLIENT_ID = os.getenv('YOUR_CLIENT_ID')
+YOUR_CLIENT_SECRET = os.environ.get('YOUR_CLIENT_SECRET')
 
 
 def get_token():

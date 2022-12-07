@@ -112,7 +112,7 @@ def update_graph_live(n):
                         "date": "Date (YYYY-MM-DD)"
                     },
     )
-    fig.update_layout(showlegend=False)
+    #fig.update_layout(showlegend=False)
     values_series = df_data['value']
     mean_T, std_T = values_series.mean(), values_series.std()
     max_T = values_series.max()
