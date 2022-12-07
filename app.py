@@ -66,7 +66,7 @@ app.layout = html.Div(children=[
             id='interval-component',
             interval=10*1000, # in milliseconds
             n_intervals=0,
-            disabled=False
+            disabled='True'
         )
 ]) 
 
@@ -80,11 +80,11 @@ app.layout = html.Div(children=[
 def update_output(value):
     if value:
         value=True
-        valueout = 'False'
+        valueout = 'True'
     else:
         value=False
-        valueout = 'True'
-    return value
+        valueout = 'False'
+    return valueout
 
 
 @app.callback([
