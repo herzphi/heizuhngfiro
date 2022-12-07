@@ -78,13 +78,7 @@ app.layout = html.Div(children=[
     Input('toggle-live-offline', 'value')
 )
 def update_output(value):
-    if value:
-        value=True
-        valueout = 'True'
-    else:
-        value=False
-        valueout = 'False'
-    return valueout
+    return str(value)
 
 
 @app.callback([
