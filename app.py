@@ -71,9 +71,8 @@ app.layout = html.Div(children=[
 ]) 
 
 
-"""@app.callback(
+@app.callback(
     [
-        Output('toggle-info', 'children'),
         Output('interval-component', 'disabled'),
     ],
     Input('toggle-live-offline', 'value')
@@ -85,7 +84,7 @@ def update_output(value):
     else:
         value=True
         valueout = 'False'
-    return f'Live Updates: {valueout}.', value"""
+    return value
 
 
 @app.callback([
