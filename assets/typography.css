@@ -1,6 +1,9 @@
 body {
     font-family: Helvetica;
 }
+.top_line {
+    float: left;
+}
 h1 {
     text-align: center;
 }
