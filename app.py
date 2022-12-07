@@ -79,11 +79,11 @@ app.layout = html.Div(children=[
 )
 def update_output(value):
     if value:
-        value=False
-        valueout = 'True'
-    else:
         value=True
         valueout = 'False'
+    else:
+        value=False
+        valueout = 'True'
     return value
 
 
