@@ -3,7 +3,14 @@ from dash.dependencies import Input, Output
 import dash_daq as daq
 import plotly.express as px
 
-from iotcloudtemp.connect import get_temp_by_hour
+from iotcloudtemp.connect import get_temp_by_hour, get_connection
+
+properties, thing_id, client_properties = get_connection()
+
+name_props, id_props = ([] for i in range(2))
+for i in range(len(properties)):
+    name_props.append(properties[i].name)
+    id_props.append(properties[i].id)
 
 mathjax = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML'
 app = Dash(__name__)
@@ -18,6 +25,7 @@ app.layout = html.Div(children=[
         id='toggle-live-offline',
         label='Live Updates'
     ),
+    dcc.Dropdown(name_props, id='sensor-dropdown'),
     html.Table(className='table_info',
     children=[
         html.Tr(
@@ -93,16 +101,20 @@ def update_output(value):
     Output('max_temperature', 'children'),
     Output('min_temperature', 'children'),
     ],
-    Input('interval-component', 'n_intervals')
+    [
+    Input('interval-component', 'n_intervals'),
+    Input('sensor-dropdown', 'value')
+    ]
 )
 def update_graph_live(n):
-    df_data = get_temp_by_hour()
+    
+    df_data = get_temp_by_hour(properties, client_properties, thing_id)
     latest_data, time, date = df_data.tail(1).value.values[0], \
         df_data.tail(1).time.values[0], df_data.tail(1).date.values[0]
     fig = px.line(df_data,
                     x="hour", 
                     y="value", 
-                    color='date', 
+                    color='date',
                     template='simple_white',
                     labels={
                         "hour": "Hour of the Day",

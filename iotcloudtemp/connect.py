@@ -7,11 +7,9 @@ from datetime import timedelta
 import os
 
 # Get environment variables
-#YOUR_CLIENT_ID = os.getenv('YOUR_CLIENT_ID')
-#YOUR_CLIENT_SECRET = os.environ.get('YOUR_CLIENT_SECRET')
-
 YOUR_CLIENT_ID = 'LEE2MI2lNlbbZhNs2s1XBPFSXkzZAUhA'
 YOUR_CLIENT_SECRET = 'PIJWDrwgLiSYIopGGR1IjVjsgXrhNQ6R55Hy0nFf0ZZTQhAlXDw4vEppX462eKIZ'
+
 
 def get_token():
     oauth_client = BackendApplicationClient(client_id=YOUR_CLIENT_ID)
@@ -28,7 +26,7 @@ def get_token():
     return token
 
 
-def get_ids():
+def get_connection():
     token = get_token()
     client_config = iot.Configuration(host="https://api2.arduino.cc/iot")
     client_config.access_token = token.get("access_token")
@@ -45,17 +43,12 @@ def get_ids():
             philipp_thing = things[i]
     thing_id = philipp_thing.id
     properties = client_properties.properties_v2_list(thing_id)
-    name_props, id_props = ([] for i in range(2))
-
-    for i in range(len(properties)):
-        name_props.append(properties[i].name)
-        id_props.append(properties[i].id)
-    return client_properties, thing_id, properties, name_props, id_props
+    return properties, thing_id, client_properties
 
 
-def get_temp_by_hour():
-    client_properties, thing_id, properties, name_props, id_props = get_ids()
-    temp0_id = id_props[0]
+
+def get_temp_by_hour(properties, client_properties, thing_id):
+    temp0_id = properties[0].id
     to_date_dict = client_properties.properties_v2_timeseries(thing_id, temp0_id)
 
     data_list = to_date_dict.data
