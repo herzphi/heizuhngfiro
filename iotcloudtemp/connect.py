@@ -28,7 +28,7 @@ def get_token():
     return token
 
 
-def get_temp_by_hour():
+def get_ids():
     token = get_token()
     client_config = iot.Configuration(host="https://api2.arduino.cc/iot")
     client_config.access_token = token.get("access_token")
@@ -41,11 +41,21 @@ def get_temp_by_hour():
     except iot.ApiException as e:
         print("An exception occurred: {}".format(e))
     for i in range(len(things)):
-        if things[i].name=='DS18B20_Logging_PHILIPP':
+        if things[i].name=='Noel code':
             philipp_thing = things[i]
     thing_id = philipp_thing.id
     properties = client_properties.properties_v2_list(thing_id)
-    temp0_id = properties[0].id
+    name_props, id_props = ([] for i in range(2))
+
+    for i in range(len(properties)):
+        name_props.append(properties[i].name)
+        id_props.append(properties[i].id)
+    return client_properties, thing_id, properties, name_props, id_props
+
+
+def get_temp_by_hour():
+    client_properties, thing_id, properties, name_props, id_props = get_ids()
+    temp0_id = id_props[0]
     to_date_dict = client_properties.properties_v2_timeseries(thing_id, temp0_id)
 
     data_list = to_date_dict.data
