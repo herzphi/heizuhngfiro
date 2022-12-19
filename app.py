@@ -71,6 +71,9 @@ app.layout = html.Div(children=[
 ]) 
 
 
+
+
+
 @app.callback(
     Output('interval-component', 'disabled'),
     Input('toggle-live-offline', 'value')
