@@ -18,7 +18,7 @@ app = Dash(__name__)
 server = app.server
 
 app.layout = html.Div(children=[
-    html.H1(children='Philipps HeidelBude'),
+    html.H1(children='Heizung FiRo'),
     #html.Div(id='toggle-info'),
     daq.ToggleSwitch(
         value=False,
@@ -107,7 +107,6 @@ def update_output(value):
     ]
 )
 def update_graph_live(n):
-    
     df_data = get_temp_by_hour(properties, client_properties, thing_id)
     latest_data, time, date = df_data.tail(1).value.values[0], \
         df_data.tail(1).time.values[0], df_data.tail(1).date.values[0]
