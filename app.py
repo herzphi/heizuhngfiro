@@ -8,8 +8,7 @@ import plotly.graph_objects as go
 from iotcloudtemp.connect import get_temp_by_hour, get_thing_id, checkboxes_table, revive_connection
 
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-app.title = "Dashboard fürn Steviboi"
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], title='Dashboard fürn Steviboi')
 
 server = app.server
 
