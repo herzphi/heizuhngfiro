@@ -1,6 +1,5 @@
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
-#from iotcloudtemp.credentials import YOUR_CLIENT_ID, YOUR_CLIENT_SECRET
 import iot_api_client as iot
 import pandas as pd
 from datetime import timedelta
@@ -52,7 +51,6 @@ def get_connection():
     for thing_id in thing_ids:
         properties.append(client_properties.properties_v2_list(thing_id))
     return properties, thing_id, client_properties
-
 
 
 def get_temp_by_hour(property_id, client_properties, thing_id, df_propids):
