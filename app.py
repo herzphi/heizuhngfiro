@@ -82,7 +82,6 @@ content = html.Div(children=[
 app.layout = html.Div([sidebar, content])
 
 
-
 @app.callback(
     Output('interval-component', 'disabled'),
     Input('toggle-live-offline', 'value')
