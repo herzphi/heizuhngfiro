@@ -7,12 +7,12 @@ from datetime import timedelta
 import os
 
 # Get environment variables
-YOUR_CLIENT_ID = 'LEE2MI2lNlbbZhNs2s1XBPFSXkzZAUhA'
-YOUR_CLIENT_SECRET = 'PIJWDrwgLiSYIopGGR1IjVjsgXrhNQ6R55Hy0nFf0ZZTQhAlXDw4vEppX462eKIZ'
+#YOUR_CLIENT_ID = 'LEE2MI2lNlbbZhNs2s1XBPFSXkzZAUhA'
+#YOUR_CLIENT_SECRET = 'PIJWDrwgLiSYIopGGR1IjVjsgXrhNQ6R55Hy0nFf0ZZTQhAlXDw4vEppX462eKIZ'
 
 #  Read server side environemnt variables
-#YOUR_CLIENT_ID = os.getenv('YOUR_CLIENT_ID')
-#YOUR_CLIENT_SECRET = os.environ.get('YOUR_CLIENT_SECRET')
+YOUR_CLIENT_ID = os.getenv('YOUR_CLIENT_ID')
+YOUR_CLIENT_SECRET = os.environ.get('YOUR_CLIENT_SECRET')
 
 
 def get_token():
