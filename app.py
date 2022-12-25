@@ -8,10 +8,13 @@ import plotly.graph_objects as go
 from iotcloudtemp.connect import get_temp_by_hour, get_thing_id, checkboxes_table, revive_connection
 
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], title='Dashboard fürn Steviboi')
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 server = app.server
 
+app.title('Dashboard fürn Steviboi')
+
+#  Pre-Load data
 client_things, client_properties = revive_connection()
 thing_id, properties_unflat = get_thing_id(client_things, client_properties)
 properties = [item for sublist in properties_unflat for item in sublist]
