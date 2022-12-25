@@ -138,7 +138,9 @@ def get_thing_id(client_things, client_properties):
 def checkboxes_table(properties):
     df_propids = pd.DataFrame({
         'name':[d.name for d in properties],
-        'id':[d.id for d in properties]
+        'id':[d.id for d in properties],
+        'thing_name':[d.thing_name for d in properties],
+        'thing_id':[d.thing_id for d in properties]
     })
     property_name = ['t_30','t_38','t_32','t_36','t_37','t_35','t_33','t_24','t_20','t_31','t_34','t_22','t_23','t_21']
     property_purpose = ['WW-Zirkulation Rücklauf','WW-Zirkulation Vorlauf','Vorlauf Heizungsgerät',\
@@ -149,7 +151,30 @@ def checkboxes_table(properties):
         row = df_propids[df_propids['name']==name].index
         df_propids.loc[row, 'purpose'] = purpose
     #  Make the dictionary
-    dict_propid_list = df_propids.drop('name', axis=1)\
+    dict_propid_list = df_propids.drop(['name', 'thing_name', 'thing_id'], axis=1)\
             .rename(columns={'id':'value', 'purpose':'label'})\
                     .to_dict(orient='records')
     return df_propids, dict_propid_list
+
+
+def get_data(client_properties, df_propids):
+    df = pd.DataFrame({})
+    for tid, tname ,pid, pname in zip(df_propids.thing_id.values, df_propids.thing_name.values, df_propids.id.values, df_propids.purpose.values):
+        data_dict = client_properties.properties_v2_timeseries(tid, pid).data
+        times = [el.time for el in data_dict]
+        values = [el.value for el in data_dict]
+        df['datetime'] = times
+        df[pid] = values
+        df['date'] = pd.to_datetime(df['datetime']).dt.strftime('%d.%m.%Y')
+        df['time'] = pd.to_datetime(df['datetime']).dt.strftime('%H:%M')
+        df['hour'] = pd.to_datetime(df['datetime']).dt.hour + pd.to_datetime(df['datetime']).dt.minute/60
+        df['hour_rounded'] = round(pd.to_datetime(df['datetime']).dt.hour + pd.to_datetime(df['datetime']).dt.minute/60)
+
+    # Make the averages
+    df_mean = df.drop(['datetime', 'date', 'time', 'hour'], axis=1)\
+        .groupby('hour_rounded').agg('mean').add_suffix('_mean')
+    df_std = df.drop(['datetime', 'date', 'time', 'hour'], axis=1)\
+            .groupby('hour_rounded').agg('std').add_suffix('_std')
+    df_union = pd.concat([df_mean, df_std], axis=1)
+    df_union['hour_rounded'] = df_union.index
+    return df, df_union
