@@ -8,7 +8,7 @@ from iotcloudtemp.connect import get_temp_by_hour, get_thing_id, checkboxes_tabl
 
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-
+app.title = 'Dashboard fürn Steviboi'
 server = app.server
 
 #  Pre-Load data
