@@ -113,7 +113,6 @@ def update_output(value):
 )
 def update_graph_live(n, sensor, datecheck):
     T, t = df_data[['eab17e2c-02bb-44c1-ba88-ce38ce214670', 'hour']].tail(1).values[0]
-    purpose = df_propids['purpose'].values[0]
     if str(datecheck) == 'True':
         fig = px.line(df_data,
                         x="hour",
@@ -155,8 +154,13 @@ def update_graph_live(n, sensor, datecheck):
                 )
             fig_stats.add_trace(
                 go.Histogram(
-                    x=df_avg[f'{sensor_id}_mean'].values,
+                    x=df_data[f'{sensor_id}'].values,
                     name=df_propids[df_propids.id==sensor_id].purpose.values[0],
+                    xbins=dict( # bins used for histogram
+                        start=round(df_data[f'{sensor_id}'].min()),
+                        end=round(df_data[f'{sensor_id}'].max()),
+                        size=.5
+                    )
                 )
             )
         fig.update_layout(
