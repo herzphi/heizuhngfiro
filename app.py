@@ -11,8 +11,6 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 server = app.server
 
-app.title = 'Dashboard fürn Steviboi'
-
 #  Pre-Load data
 client_things, client_properties = revive_connection()
 thing_id, properties_unflat = get_thing_id(client_things, client_properties)
