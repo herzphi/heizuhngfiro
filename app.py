@@ -8,7 +8,8 @@ import plotly.graph_objects as go
 from iotcloudtemp.connect import get_temp_by_hour, get_thing_id, checkboxes_table, revive_connection
 
 client_things, client_properties = revive_connection()
-thing_id, properties = get_thing_id(client_things, client_properties)
+thing_id, properties_unflat = get_thing_id(client_things, client_properties)
+properties = [item for sublist in properties_unflat for item in sublist]
 df_propids, dict_propid_list = checkboxes_table(properties)
 
 
@@ -23,7 +24,7 @@ SIDEBAR_STYLE = {
     "top": 0,
     "left": 0,
     "bottom": 0,
-    "width": "16rem",
+    "width": "18rem",
     "padding": "2rem 1rem",
     "background-color": "#f8f9fa",
     "font-size": "9pt",

@@ -7,8 +7,12 @@ from datetime import timedelta
 import os
 
 # Get environment variables
-YOUR_CLIENT_ID = 'LEE2MI2lNlbbZhNs2s1XBPFSXkzZAUhA'
-YOUR_CLIENT_SECRET = 'PIJWDrwgLiSYIopGGR1IjVjsgXrhNQ6R55Hy0nFf0ZZTQhAlXDw4vEppX462eKIZ'
+#YOUR_CLIENT_ID = 'LEE2MI2lNlbbZhNs2s1XBPFSXkzZAUhA'
+#YOUR_CLIENT_SECRET = 'PIJWDrwgLiSYIopGGR1IjVjsgXrhNQ6R55Hy0nFf0ZZTQhAlXDw4vEppX462eKIZ'
+
+#  Read server side environemnt variables
+YOUR_CLIENT_ID = os.getenv('YOUR_CLIENT_ID')
+YOUR_CLIENT_SECRET = os.environ.get('YOUR_CLIENT_SECRET')
 
 
 def get_token():
@@ -38,11 +42,15 @@ def get_connection():
         print('Response positive.')
     except iot.ApiException as e:
         print("An exception occurred: {}".format(e))
+    thing_ids = []
     for i in range(len(things)):
-        if things[i].name=='Noel code':
-            philipp_thing = things[i]
-    thing_id = philipp_thing.id
-    properties = client_properties.properties_v2_list(thing_id)
+        if things[i].name in ['Chris code', 'Noel code']:
+            thing_ids.append(things[i].id)
+
+    #   Set IDs
+    properties = []
+    for thing_id in thing_ids:
+        properties.append(client_properties.properties_v2_list(thing_id))
     return properties, thing_id, client_properties
 
 
@@ -118,10 +126,14 @@ def revive_connection():
 
 def get_thing_id(client_things, client_properties):
     things = client_things.things_v2_list()
+    thing_ids = []
     for i in range(len(things)):
-        if things[i].name=='Noel code':
-            thing_id = things[i].id
-    properties = client_properties.properties_v2_list(thing_id)
+        if things[i].name in ['Chris code', 'Noel code']:
+            thing_ids.append(things[i].id)
+    #   Set IDs
+    properties = []
+    for thing_id in thing_ids:
+        properties.append(client_properties.properties_v2_list(thing_id))
     return thing_id, properties
 
 
