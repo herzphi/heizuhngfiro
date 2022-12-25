@@ -3,7 +3,6 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import dash_daq as daq
 import plotly.express as px
-import plotly.graph_objects as go
 
 from iotcloudtemp.connect import get_temp_by_hour, get_thing_id, checkboxes_table, revive_connection
 
@@ -12,7 +11,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 server = app.server
 
-app.title('Dashboard fürn Steviboi')
+app.title = 'Dashboard fürn Steviboi'
 
 #  Pre-Load data
 client_things, client_properties = revive_connection()
