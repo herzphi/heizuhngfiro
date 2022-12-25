@@ -7,16 +7,15 @@ import plotly.graph_objects as go
 
 from iotcloudtemp.connect import get_temp_by_hour, get_thing_id, checkboxes_table, revive_connection
 
+
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+server = app.server
+
 client_things, client_properties = revive_connection()
 thing_id, properties_unflat = get_thing_id(client_things, client_properties)
 properties = [item for sublist in properties_unflat for item in sublist]
 df_propids, dict_propid_list = checkboxes_table(properties)
-
-
-mathjax = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML'
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-
-server = app.server
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
