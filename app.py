@@ -189,6 +189,9 @@ def update_graph_live(n, sensor, datecheck):
             xaxis_title_text='Hour of the Day',
             yaxis_title_text='Mean Temperature in °C',
             template='simple_white',
+            xaxis=dict(
+                tickvals=list(range(25)),
+            )
         )
         fig_stats.update_layout(
             xaxis_title_text='Temperature in °C',
