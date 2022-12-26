@@ -190,7 +190,7 @@ def update_graph_live(n, sensor, datecheck):
             yaxis_title_text='Mean Temperature in °C',
             template='simple_white',
             xaxis=dict(
-                tickvals=list(range(25)),
+                tickvals=list(range(25))
             )
         )
         fig_stats.update_layout(
