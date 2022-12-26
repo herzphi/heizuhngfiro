@@ -5,7 +5,7 @@ import dash_daq as daq
 import plotly.express as px
 import plotly.graph_objects as go
 
-from iotcloudtemp.connect import get_temp_by_hour, get_thing_id, checkboxes_table, revive_connection, get_data
+from iotcloudtemp.connect import get_thing_id, checkboxes_table, revive_connection, get_data
 
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -51,7 +51,7 @@ sidebar = html.Div(
                     id='toggle-live-offline',
                     label='Live Updates'
                 ),
-                daq.ToggleSwitch(value=False, id='toggle-mean-date', label='Comparison On/Off'),
+                daq.ToggleSwitch(value=True, id='toggle-mean-date', label='Comparison On/Off'),
             ], style={'padding-top':'10px', 'padding-bottom':'10px'}
         ),
         dbc.Card(
@@ -114,27 +114,49 @@ def update_output(value):
 def update_graph_live(n, sensor, datecheck):
     T, t = df_data[['eab17e2c-02bb-44c1-ba88-ce38ce214670', 'hour']].tail(1).values[0]
     if str(datecheck) == 'True':
-        fig = px.line(df_data,
+        fig = go.Figure()
+        fig_stats = go.Figure()
+        for sensor_id in sensor:
+            fig.add_traces(
+                list(
+                    px.line(
+                        df_data,
                         x="hour",
-                        y="value", 
+                        y=f'{sensor_id}', 
                         color='date',
                         template='simple_white',
-                        title='purpose',
                         labels={
                             "hour": "Hour of the Day",
                             "value": "Temperature in °C",
                             "date": "Date (YYYY-MM-DD)"
                         },
+                    ).select_traces()
+                )
+            )
+            fig_stats.add_trace(
+                go.Histogram(
+                    x=df_data[f'{sensor_id}'].values,
+                    name=df_propids[df_propids.id==sensor_id].purpose.values[0],
+                    xbins=dict( # bins used for histogram
+                        start=round(df_data[f'{sensor_id}'].min()),
+                        end=round(df_data[f'{sensor_id}'].max()),
+                        size=.5
+                    )
+                )
+            )
+        fig.update_layout(
+            xaxis_title_text='Hour of the Day',
+            yaxis_title_text='Temperature in °C',
+            template='simple_white',
+            xaxis=dict(
+                tickvals=list(range(25)),
+            )
+        )
+        fig_stats.update_layout(
+            xaxis_title_text='Temperature in °C',
+            template='simple_white',
         )
     elif str(datecheck) == 'False':
-        """fig = px.scatter(
-            df_avg, 
-            x='hour_rounded',
-            y=f'{sensor}_mean',
-            error_y=f'{sensor}_std',
-            color='purpose',
-            template='simple_white',
-        )"""
         fig = go.Figure()
         fig_stats = go.Figure()
         for sensor_id in sensor:
