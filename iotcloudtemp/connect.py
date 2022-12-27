@@ -6,12 +6,12 @@ from datetime import timedelta
 import os
 
 # Get environment variables
-#YOUR_CLIENT_ID = 'LEE2MI2lNlbbZhNs2s1XBPFSXkzZAUhA'
-#YOUR_CLIENT_SECRET = 'PIJWDrwgLiSYIopGGR1IjVjsgXrhNQ6R55Hy0nFf0ZZTQhAlXDw4vEppX462eKIZ'
+YOUR_CLIENT_ID = 'LEE2MI2lNlbbZhNs2s1XBPFSXkzZAUhA'
+YOUR_CLIENT_SECRET = 'PIJWDrwgLiSYIopGGR1IjVjsgXrhNQ6R55Hy0nFf0ZZTQhAlXDw4vEppX462eKIZ'
 
 #  Read server side environemnt variables
-YOUR_CLIENT_ID = os.getenv('YOUR_CLIENT_ID')
-YOUR_CLIENT_SECRET = os.environ.get('YOUR_CLIENT_SECRET')
+#YOUR_CLIENT_ID = os.getenv('YOUR_CLIENT_ID')
+#YOUR_CLIENT_SECRET = os.environ.get('YOUR_CLIENT_SECRET')
 
 
 def get_token():
@@ -105,8 +105,8 @@ def get_data(client_properties, df_propids):
     df = pd.DataFrame({})
     for tid ,pid in zip(df_propids.thing_id.values, df_propids.id.values):
         data_dict = client_properties.properties_v2_timeseries(tid, pid).data
-        times = [el.time for el in data_dict]
-        values = [el.value for el in data_dict]
+        times = [el.time for el in data_dict][:900]
+        values = [el.value for el in data_dict][:900]
         df['datetime'] = times
         df[pid] = values
         df['date'] = pd.to_datetime(df['datetime']).dt.strftime('%d.%m.%Y')
